@@ -20,6 +20,15 @@ export class Component {
 }
 
 /**
+ * @param {object} internalInstance
+ */
+function updateInstance(internalInstance) {
+  const parentDom = internalInstance.dom.parentNode;
+  const element = internalInstance.element;
+  reconcile(parentDom, internalInstance, element);
+}
+
+/**
  * @param {object} element
  * @param {object} internalInstance
  * @return {object}
@@ -29,13 +38,4 @@ export function createPublicInstance(element, internalInstance) {
   const publicInstance = new type(props);
   publicInstance._internalInstance = internalInstance;
   return publicInstance;
-}
-
-/**
- * @param {object} internalInstance
- */
-function updateInstance(internalInstance) {
-  const parentDom = internalInstance.dom.parentNode;
-  const element = internalInstance.element;
-  reconcile(parentDom, internalInstance, element);
 }
