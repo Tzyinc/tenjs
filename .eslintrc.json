@@ -1,0 +1,19 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser" : true,
+    "node" : true,
+    "es6" : true
+  },
+  "extends": ["google"],
+  "rules": {
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+            "react"
+  ]
+}
