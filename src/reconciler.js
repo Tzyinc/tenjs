@@ -24,9 +24,9 @@ export function reconcile(parentDom, instance, element) {
     parentDom.appendChild(newInstance.dom);
     return newInstance;
   } else if (element == null) {
-    parantDom.removeChild(instance.dom);
+    parentDom.removeChild(instance.dom);
     return null;
-  } else if (instance.element.type === element.type) {
+  } else if (instance.element.type !== element.type) {
     updateDomProperties(instance.dom, instance.element.props, element.props);
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
@@ -44,7 +44,7 @@ export function reconcile(parentDom, instance, element) {
     const childInstance = reconcile(parentDom, oldChildInstance, childElement);
     instance.dom = childInstance.dom;
     instance.childInstance = childInstance;
-    instane.element = element;
+    instance.element = element;
     return instance;
   }
 }
@@ -56,8 +56,8 @@ export function reconcile(parentDom, instance, element) {
 */
 function reconcileChildren(instance, element) {
   const dom = instance.dom;
-  const childInstances = instance.childInstances;
-  const nextChildElements = elements.props.children || [];
+  const childInstances = instance.childInstances || [];
+  const nextChildElements = element.props.children || [];
   const newChildInstances = [];
   const count = Math.max(childInstances.length, nextChildElements.length);
   for (let i = 0; i < count; i++) {
@@ -85,7 +85,7 @@ function instantiate(element) {
     updateDomProperties(dom, [], props);
 
     // instantiate and append children
-    const childElements = props.children || [];
+    const childElements = props.children;
     const childInstances = childElements.map(instantiate);
     const childDoms = childInstances.map((childInstance) => childInstance.dom);
     childDoms.forEach((childDom) => dom.appendChild(childDom));
